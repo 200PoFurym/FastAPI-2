@@ -10,12 +10,12 @@ async def register(name: str, phone_number: int, level: str):
     reg = register_user_db(name, phone_number, level)
     return reg
 
-@user_router.get('/leaders')
+@user_router.post('/answer-done')
 async def get_leaders(user_id: int, id: int, level: str, user_answer: int):
     leaders = user_answer_db(user_id, id, level, user_answer)
-    return f'Лидеры {leaders}'
+    return f'Ответ {leaders}'
 
-@user_router.post('/done')
-async def done(user_id: int, correct_answer: int, level: str):
-    result = plus_point_db(user_id, correct_answer, level)
+@user_router.post('/plus')
+async def done(user_id: int, id: int, correct_answer: int, level: str):
+    result = plus_point_db(user_id, id, correct_answer, level)
     return f'Результат {result}'

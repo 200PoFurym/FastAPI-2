@@ -27,7 +27,7 @@ def user_answer_db(user_id, id, level, correct_answer):
         else:
             correctness = False
         #     созданиме обьекта в БД
-        new_answer = UserAnswers(user_id=user_id, q_id=id, level=level, correctness=correctness)
+        new_answer = UserAnswers(user_id=user_id, q_id=id, level=level, correctness=correctness, user_answer=correct_answer, timer=datetime.now())
         db.add(new_answer)
         db.commit()
         return True if correctness else False
@@ -39,13 +39,11 @@ def plus_point_db(user_id, correct_answer, level):
     checker = db.query(Result).filter_by(user_id=user_id).first()
     if checker:
         checker.correct_answer += correct_answer
+        db.commit()
         return checker.correct_answer
     else:
         new_data = Result(user_id=user_id,correct_answer=correct_answer, level=level)
         db.add(new_data)
         db.commit()
 
-        all_leader = db.query(Result.user_id).order_by(Result.correct_answer.desc())
-
-        return all_leader.index((user_id,)) + 1
-
+        return new_data.correct_answer

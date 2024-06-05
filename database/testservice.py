@@ -11,7 +11,8 @@ def get_5_leaders_db():
 
 def get_question_db():
     db = next(get_db())
-    questions = db.query(Questions).order_by(func.random).limit(20).all()
+    questions = db.query(Questions).all()
+    
     # random.shuffle(questions)
     return questions  #[:20]
 
